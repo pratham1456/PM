@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Project</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <style>
+      .content {
+        display: grid;
+        grid-template-columns: repeat(2, 50%);
+        column-gap: 50px;
+      }
+
+      .btn {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container mt-5">
+      <h2 class="mb-4">Edit Project</h2>
+
+      <form
+        action="{{ url_for('edit_project', project_id=project.id) }}"
+        method="POST"
+      >
+        <div class="content">
+          <div class="mb-3">
+            <label for="ipo_no" class="form-label">IPO Number</label>
+            <input
+              type="text"
+              class="form-control"
+              id="ipo_no"
+              name="ipo_no"
+              value="{{ project.ipo_no }}"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="name" class="form-label">Project Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              value="{{ project.name }}"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="company_name" class="form-label">Company Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="company_name"
+              name="company_name"
+              value="{{ project.company_name }}"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="departments" class="form-label">Departments</label>
+            <input
+              type="text"
+              class="form-control"
+              id="departments"
+              name="departments"
+              value="{{ project.departments }}"
+              readonly
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="start_date" class="form-label">Start Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="start_date"
+              name="start_date"
+              value="{{ project.start_date }}"
+              readonly
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="target_date" class="form-label">Target Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="target_date"
+              name="target_date"
+              value="{{ project.target_date }}"
+              readonly
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="total_estimation" class="form-label"
+              >Total Estimation (in USD)</label
+            >
+            <input
+              type="number"
+              step="0.01"
+              class="form-control"
+              id="total_estimation"
+              name="total_estimation"
+              value="{{ project.total_estimation }}"
+              readonly
+            />
+          </div>
+          <div class="mb-3">
+            <label for="actual_estimation" class="form-label"
+              >Actual Estimation (in USD)</label
+            >
+            <input
+              type="number"
+              step="0.01"
+              class="form-control"
+              id="actual_estimation"
+              name="actual_estimation"
+              value="{{ project.actual_estimation }}"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="actual_start_date" class="form-label"
+              >Actual Start Date</label
+            >
+            <input
+              type="date"
+              class="form-control"
+              id="actual_start_date"
+              name="actual_start_date"
+              value="{{ project.actual_start_date }}"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="actual_target_date" class="form-label"
+              >Actual Target Date</label
+            >
+            <input
+              type="date"
+              class="form-control"
+              id="actual_target_date"
+              name="actual_target_date"
+              value="{{ project.actual_target_date }}"
+            />
+          </div>
+        </div>
+        <div class="btn">
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+          <a
+            href="{{ url_for('project_details', project_id=project.id) }}"
+            class="btn btn-secondary"
+            >Cancel</a
+          >
+        </div>
+      </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  nav img {
+    width: 300px;
+  }
+  
+  nav div {
+    display: flex;
+    gap: 20px;
+  }
+  
+  nav a {
+    text-decoration: none;
+    color: #007BFF;
+    font-size: 1rem;
+  }
+  
+  .dashboard {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+  }
+  
+  .main-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .image-box {
+    height: 150px;
+    border: 2px dashed #0078d4;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #0078d4;
+  }
+  
+  .status-indicator {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .status {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+  
+  .status.ok {
+    background: green;
+  }
+  
+  .status.nok {
+    background: red;
+  }
+  
+  .status.offline {
+    background: gray;
+  }
+  

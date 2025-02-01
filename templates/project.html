@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+    />
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/css/bootstrap-select.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <!-- Google icon -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 25px;
+        margin-top: 30px;
+      }
+
+      .projects-section {
+        flex: 3;
+      }
+
+      .controls {
+        flex: 1;
+        display: contents;
+      }
+
+      .project-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        text-align: center;
+        position: relative;
+      }
+
+      .action-icons {
+        margin-top: 10px;
+        position: absolute;
+        top: 0;
+        right: 5px;
+      }
+
+      .action-icons i {
+        margin: 0 5px;
+        font-size: 18px;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+
+      .edit {
+        cursor: pointer;
+      }
+
+      .delete {
+        cursor: pointer;
+        color: red;
+      }
+      .delete:hover {
+        color: rgb(148, 44, 44);
+      }
+
+      .project-btn {
+        /* display: block; */
+        padding: 10px;
+        background: blue;
+        color: white;
+        border: none;
+        text-align: center;
+        cursor: pointer;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        height: 40px;
+      }
+
+      .user-btn {
+        /* display: block; */
+        padding: 10px;
+        background: rgb(68, 194, 68);
+        color: white;
+        border: none;
+        text-align: center;
+        cursor: pointer;
+        margin-bottom: 10px;
+        border-radius: 4px;
+      }
+
+      .logout-btn {
+        padding: 10px;
+        background: rgb(194, 68, 68);
+        color: white;
+        border: none;
+        text-align: center;
+        cursor: pointer;
+        margin-bottom: 10px;
+        border-radius: 4px;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        width: 500px;
+        height: 500px;
+        overflow: auto;
+      }
+
+      .close {
+        float: right;
+        cursor: pointer;
+      }
+
+      div#projectsList {
+        display: grid;
+        grid-template-columns: repeat(6, 120px);
+        justify-content: center;
+        max-height: 500px;
+        column-gap: 25px;
+        overflow: auto;
+      }
+
+      .save-btn {
+        display: flex;
+        width: 100%;
+        margin-top: 20px;
+        justify-content: center;
+      }
+
+      .save-btn button {
+        padding: 10px;
+        background: blue;
+        color: white;
+        border: none;
+        text-align: center;
+        cursor: pointer;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        width: 100px;
+      }
+
+      .modal-content input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        background-color: #fff;
+      }
+
+      ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #f5f5f5;
+      }
+
+      ::-webkit-scrollbar {
+        width: 10px;
+        background-color: #f5f5f5;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background-color: rgb(178, 178, 178);
+      }
+
+      .material-symbols-outlined {
+        font-size: 17px;
+      }
+
+      .close .material-symbols-outlined {
+        font-size: 22px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="projects-section">
+        <h2 style="margin-top: 0">Projects</h2>
+      </div>
+      <div class="controls">
+        {% if user_role in ['Admin', 'HOD', 'PM'] %}
+        <button class="project-btn" onclick="openModal()">Add Project</button>
+        {% endif %} {% if user_role in ['Admin', 'HOD', 'TL'] %}
+        <a href="{{ url_for('UserPage') }}"
+          ><button class="user-btn">Add User</button></a
+        >
+        {% endif %}
+        <a href="{{ url_for('logout') }}"
+          ><button class="logout-btn">Log out</button></a
+        >
+      </div>
+    </div>
+
+    <div id="projectsList">
+      {% for project in projects %}
+      <a
+        style="color: inherit; text-decoration: none"
+        href="{{ url_for('project_details', project_id=project.id) }}"
+      >
+        <div class="project-card">
+          <h5>{{ project.name }}</h5>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <div id="projectModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()"
+          ><span class="material-symbols-outlined"> close </span></span
+        >
+        <h3 style="margin-bottom: 20px">Add New Project</h3>
+        <form
+          id="addProjectForm"
+          method="post"
+          action="{{ url_for('ProjectPage') }}"
+        >
+          <label for="">IPO no.:</label><br />
+          <input
+            name="ipo_no"
+            type="text"
+            id="ipo_no"
+            placeholder="Enter ipo no."
+            required
+          />
+          <label for="">Project name:</label><br />
+          <input
+            name="project_name"
+            type="text"
+            id="project_name"
+            placeholder="Project Name"
+            required
+          />
+          <label for="">Company Name:</label><br />
+          <input
+            name="company_name"
+            type="text"
+            id="company_name"
+            placeholder="Enter Company Name"
+            required
+          />
+          <label for="">Select Departments:</label><br />
+          <div class="dropup">
+            <select
+              name="departments"
+              class="selectpicker"
+              multiple
+              data-live-search="true"
+              required
+            >
+              <option value="Software">Software</option>
+              <option value="AI">AI</option>
+              <option value="Embedded">Embedded</option>
+            </select>
+          </div>
+          <br />
+          <label for="">Start Date:</label><br />
+          <input name="start_date" type="date" id="start_date" required />
+          <label for="">Target Date:</label><br />
+          <input name="target_date" type="date" id="target_date" required />
+          <label for="">Total Estimation:</label><br />
+          <input
+            name="total_estimation"
+            type="number"
+            id="total_estimation"
+            placeholder="Enter total Estimation"
+            required
+          />
+
+          <div class="save-btn">
+            <button type="submit" id="add-project-btn" onclick="saveProject()">
+              Add Project
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      function openModal() {
+        document.getElementById("projectModal").style.display = "flex";
+      }
+
+      function closeModal() {
+        document.getElementById("projectModal").style.display = "none";
+      }
+    </script>
+  </body>
+</html>
